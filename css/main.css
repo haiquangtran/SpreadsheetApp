@@ -111,26 +111,15 @@ input:not(:focus) {
     text-align: right;
 }
 
-table {
-    border-style: 1px solid black;
-}
-
 /* Row and col titles */
 tr:first-child td, td:first-child {
-    background-color: #E8E3E3;
-    padding: 1px 3px;
     font-weight: bold;
     text-align: center;
 }
 
-td {
-    border: 1px solid #999;
-    padding: 0;
-}
-
 input {
     border: none;
-    width: 80px;
+    width: 90px;
     font-size: 14px;
     padding: 2px;
 }

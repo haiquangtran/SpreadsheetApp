@@ -110,6 +110,9 @@ SpreadsheetTable.prototype._isATitleCell = function(row, col) {
 SpreadsheetTable.prototype._createCellTitlesAndInputs = function(cell, i, j) {
 	// Create labels and cell inputs
 	if (this._isATitleCell(i, j)) {
+		// apply styling
+		cell.className += 'active';
+
 		if (i == 0 && j == 0) {
 			return;
 		} else if (i == 0) {

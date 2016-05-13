@@ -28,7 +28,7 @@ var App = new function() {
     */
 
     var setUpSpreadSheetTable = function() {
-        var size = 100;
+        var size = 50;
         spreadsheetTable.createTable(spreadsheet, size, size);
     };
 
