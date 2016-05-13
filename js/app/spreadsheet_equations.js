@@ -79,19 +79,19 @@ SpreadsheetEquations.prototype.executeSimpleEquation = function(operator, x, y) 
 	}
 };
 
-SpreadsheetEquations.prototype.getValuesBetweenRange = function(spreadsheetTable, minLocation, maxLocation) {
+SpreadsheetEquations.prototype.getCellReferencesBetweenRange = function(spreadsheetTable, minLocation, maxLocation) {
 	var minRow = SpreadsheetUtility.getRowFromStr(minLocation), 
 		maxRow = SpreadsheetUtility.getRowFromStr(maxLocation), 
 		minCol = SpreadsheetUtility.colToNumber(SpreadsheetUtility.getColFromStr(minLocation)),
 		maxCol = SpreadsheetUtility.colToNumber(SpreadsheetUtility.getColFromStr(maxLocation));
-	var valuesArray = [];
+	var cellReferences = [];
 	for (var row = minRow; row <= maxRow; row++) {
 		for (var col = minCol; col <= maxCol; col++) {
 			var colLetter = SpreadsheetUtility.toLetters(col);
-			valuesArray.push(spreadsheetTable.getData(row, colLetter));
+			cellReferences.push(colLetter + row);
 		}
 	}
-	return valuesArray;
+	return cellReferences;
 };
 
 /*

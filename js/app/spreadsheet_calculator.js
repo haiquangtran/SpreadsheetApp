@@ -21,7 +21,7 @@ SpreadsheetCalculator.prototype.calculateAllEquations = function(spreadsheetTabl
 			row = $current.attr(spreadsheetTable.ATTRS.ROW),
 			col = $current.attr(spreadsheetTable.ATTRS.COL);
 		var equation = SpreadsheetUtility.removeWhiteSpace($current.attr(equationAttr).substring(1));
-		var result = currentInstance._calculateEquation(spreadsheetTable, currentInstance._spreadsheetEquations.REGEX, equation),
+		var result = currentInstance._calculateEquation($current, spreadsheetTable, currentInstance._spreadsheetEquations.REGEX, equation),
 			finalResult = isNaN(result)? errorMsg: result;
 		
 		// Update
@@ -36,10 +36,10 @@ PRIVATE PARSER METHODS
 =================================================================
 */	
 
-SpreadsheetCalculator.prototype._calculateEquation = function(spreadsheetTable, regexExpObj, equation) {
+SpreadsheetCalculator.prototype._calculateEquation = function($current, spreadsheetTable, regexExpObj, equation) {
 	// Cleanse equation before evaluating
 	equation = this._parseRangeEquations(spreadsheetTable, regexExpObj, equation);
-	equation = this._parseRefCells(spreadsheetTable, regexExpObj, equation);
+	equation = this._parseRefCells($current, spreadsheetTable, regexExpObj, equation);
 
 	// formula contains functions
 	if (regexExpObj.functionEquation.test(equation)) {
@@ -49,14 +49,35 @@ SpreadsheetCalculator.prototype._calculateEquation = function(spreadsheetTable, 
 	return this._parseSimpleEquations(regexExpObj, equation);
 };
 
-SpreadsheetCalculator.prototype._parseRefCells = function(spreadsheetTable, regexExpObj, equation) {
+SpreadsheetCalculator.prototype._parseRefCells = function($current, spreadsheetTable, regexExpObj, equation) {
+	var currentInstance = this;
 	// replace all reference cells with values
 	var parsedEquation = equation.replace(regexExpObj.refCell, function(match) {
 		var row = SpreadsheetUtility.getRowFromStr(match);
 		var col = SpreadsheetUtility.getColFromStr(match);
+		if (currentInstance._isCircularReference(spreadsheetTable, $current, row, col)) {
+			return '#REF!';
+		}
 		return spreadsheetTable.getData(row, col);
 	});	
 	return parsedEquation;
+};
+
+SpreadsheetCalculator.prototype._isCircularReference = function(spreadsheetTable, $current, otherRow, otherCol) {
+	var dataRow = spreadsheetTable.ATTRS.ROW,
+		dataCol = spreadsheetTable.ATTRS.COL,
+		dataEquation = spreadsheetTable.ATTRS.EQUATION;
+	// check if the reference cell is an equation cell
+	var $otherElement = $('[' + dataRow + '="' + otherRow + '"]' + '[' + dataCol + '="' + otherCol + '"]');
+	var otherEquation = $otherElement.attr(dataEquation);
+	// current cell location
+	var cellId = $current.attr(dataCol) + $current.attr(dataRow);
+	var cellRegex = new RegExp(cellId, "gi");
+	// check reference element if circular reference
+	if (otherEquation && cellRegex.test(otherEquation)) {
+		return true;
+	}
+	return false;
 };
 
 SpreadsheetCalculator.prototype._parseFunctionEquations = function(regexExpObj, equation) {
@@ -90,7 +111,7 @@ SpreadsheetCalculator.prototype._parseRangeEquations = function(spreadsheetTable
 		var location1 = valuesRange[0], location2 = valuesRange[1];
 		var minLocation = spreadsheetTable.getMinCellLocation(location1, location2), 
 			maxLocation = spreadsheetTable.getMaxCellLocation(location1, location2);
- 		return currentInstance._spreadsheetEquations.getValuesBetweenRange(spreadsheetTable, minLocation, maxLocation).toString();
+ 		return currentInstance._spreadsheetEquations.getCellReferencesBetweenRange(spreadsheetTable, minLocation, maxLocation).toString();
 	});
 	return parsedRange;
 };
