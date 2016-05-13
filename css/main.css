@@ -122,6 +122,7 @@ input {
     width: 90px;
     font-size: 14px;
     padding: 2px;
+    cursor: default !important;
 }
 
 /* Formatters */
