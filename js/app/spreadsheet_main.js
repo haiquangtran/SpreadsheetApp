@@ -117,28 +117,16 @@ requirejs(['jquery', 'bootstrap', 'app/spreadsheet_utility', 'app/spreadsheet_eq
             });
         };
 
-        var setUpBoldButton = function() {
+        var setUpFormatterButtons = function() {
             toggleClassOnButtonClick('#bold-button', 'bold');
-        };
-
-        var setUpItalicsButton = function() {
             toggleClassOnButtonClick('#italics-button', 'italics');
-        };
-
-        var setUpUnderlineButton = function() {
             toggleClassOnButtonClick('#underline-button', 'under-line');
         };
 
-        var setUpAlignLeftButton = function() {
+        var setUpAlignmentButtons = function() {
             toggleAlignmentOnButtonClick('#align-left-button', 'align-left');
-        };
-        
-        var setUpAlignCenterButton = function() {
             toggleAlignmentOnButtonClick('#align-center-button', 'align-center');
-        };
-
-        var setUpAlignRightButton = function() {
-            toggleAlignmentOnButtonClick('#align-right-button', 'align-right');
+            toggleAlignmentOnButtonClick('#align-right-button', 'align-right');            
         };
 
         /*
@@ -149,12 +137,8 @@ requirejs(['jquery', 'bootstrap', 'app/spreadsheet_utility', 'app/spreadsheet_eq
 
         var buttonsInit = function() {
             setUpReloadButton();
-            setUpBoldButton();
-            setUpItalicsButton();
-            setUpUnderlineButton();
-            setUpAlignLeftButton();
-            setUpAlignCenterButton();
-            setUpAlignRightButton();
+            setUpFormatterButtons();
+            setUpAlignmentButtons();
         };
 
         var spreadsheetInit = function() {
