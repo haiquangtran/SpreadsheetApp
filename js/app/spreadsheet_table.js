@@ -99,7 +99,7 @@ define(['app/spreadsheet_utility'], function(SpreadsheetUtility) {
 
 	SpreadsheetTable.prototype._createInputCell = function(rowIndex, colIndex) {
 		// input field with id of the cell
-		return "<input " + this.ATTRS.ROW + "="+ rowIndex + " " + this.ATTRS.COL + "=" + SpreadsheetUtility.toLetters(colIndex) +" class='inputCell' />";
+		return "<input " + this.ATTRS.ROW + "="+ rowIndex + " " + this.ATTRS.COL + "=" + SpreadsheetUtility.toLetters(colIndex) + " class='inputCell' />";
 	};
 
 	SpreadsheetTable.prototype._isATitleCell = function(row, col) {

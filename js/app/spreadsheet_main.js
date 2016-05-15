@@ -96,6 +96,27 @@ requirejs(['jquery', 'bootstrap', 'app/spreadsheet_utility', 'app/spreadsheet_eq
             });
         };
 
+        var removeAlignmentClasses = function() {
+            // alignment classes
+            var alignClasses = ['align-left','align-center','align-right'];
+            if ($selectedCell !== null) {
+                for (var i = 0; i < alignClasses.length; i++) {
+                    $selectedCell.removeClass(alignClasses[i]);
+                }
+            }
+        };
+
+        var toggleAlignmentOnButtonClick = function(buttonId, className) {
+            $(buttonId).click(function() {
+                if ($selectedCell === null) {
+                    return;
+                } else {
+                    removeAlignmentClasses();
+                    $selectedCell.addClass(className);    
+                }
+            });
+        };
+
         var setUpBoldButton = function() {
             toggleClassOnButtonClick('#bold-button', 'bold');
         };
@@ -106,6 +127,18 @@ requirejs(['jquery', 'bootstrap', 'app/spreadsheet_utility', 'app/spreadsheet_eq
 
         var setUpUnderlineButton = function() {
             toggleClassOnButtonClick('#underline-button', 'under-line');
+        };
+
+        var setUpAlignLeftButton = function() {
+            toggleAlignmentOnButtonClick('#align-left-button', 'align-left');
+        };
+        
+        var setUpAlignCenterButton = function() {
+            toggleAlignmentOnButtonClick('#align-center-button', 'align-center');
+        };
+
+        var setUpAlignRightButton = function() {
+            toggleAlignmentOnButtonClick('#align-right-button', 'align-right');
         };
 
         /*
@@ -119,6 +152,9 @@ requirejs(['jquery', 'bootstrap', 'app/spreadsheet_utility', 'app/spreadsheet_eq
             setUpBoldButton();
             setUpItalicsButton();
             setUpUnderlineButton();
+            setUpAlignLeftButton();
+            setUpAlignCenterButton();
+            setUpAlignRightButton();
         };
 
         var spreadsheetInit = function() {

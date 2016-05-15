@@ -73,7 +73,7 @@ define(['app/spreadsheet_equations', 'app/spreadsheet_utility'], function(spread
 		var otherEquation = $otherElement.attr(dataEquation);
 		// current cell location
 		var cellId = $current.attr(dataCol) + $current.attr(dataRow);
-		var cellRegex = new RegExp(cellId, "gi");
+		var cellRegex = new RegExp(cellId, 'gi');
 		// check reference element if circular reference
 		if (otherEquation && cellRegex.test(otherEquation)) {
 			return true;
