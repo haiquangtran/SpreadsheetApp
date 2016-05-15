@@ -1,7 +1,7 @@
 define(['app/spreadsheet_equations', 'app/spreadsheet_utility'], function(spreadsheetEquations, SpreadsheetUtility) {
 	// Spreadsheet Calcuator Constructor 
 	function SpreadsheetCalculator(spreadsheetEquations) {
-		// helper class
+		// Helper class
 		this._spreadsheetEquations = spreadsheetEquations;
 	};
 
@@ -12,6 +12,19 @@ define(['app/spreadsheet_equations', 'app/spreadsheet_utility'], function(spread
 	*/	
 
 	SpreadsheetCalculator.prototype.calculateAllEquations = function(spreadsheetTable) {
+		// This will update all the referencing cells first
+		this._calculateEquations(spreadsheetTable);
+		// This will now update all the equations
+		this._calculateEquations(spreadsheetTable);
+	};
+
+	/*
+	=================================================================
+	PRIVATE PARSER METHODS
+	=================================================================
+	*/	
+
+	SpreadsheetCalculator.prototype._calculateEquations = function(spreadsheetTable) {
 		var currentInstance = this,
 		equationAttr = spreadsheetTable.ATTRS.EQUATION,
 		errorMsg = '#VALUE!';
@@ -30,12 +43,6 @@ define(['app/spreadsheet_equations', 'app/spreadsheet_utility'], function(spread
 			spreadsheetTable.addData(row, col, finalResult);
 		});
 	};
-
-	/*
-	=================================================================
-	PRIVATE PARSER METHODS
-	=================================================================
-	*/	
 
 	SpreadsheetCalculator.prototype._calculateEquation = function($current, spreadsheetTable, regexExpObj, equation) {
 		// Cleanse equation before evaluating
